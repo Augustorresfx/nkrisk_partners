@@ -11,6 +11,7 @@ def pagina_no_encontrada(request, exception):
     
     return HttpResponseNotFound(render(request, '404.html'))
 
+# Home solo redirecciona al login
 class HomeView(View):
     def get(self, request, *args, **kwargs):
         context = {
@@ -19,7 +20,7 @@ class HomeView(View):
         return redirect('login')
     
 # Inicio
-@method_decorator(login_required, name='dispatch')
+#@method_decorator(login_required, name='dispatch')
 @method_decorator(user_passes_test(lambda user: user.groups.filter(name='PermisoBasico').exists() or user.is_staff), name='dispatch')
 class InicioView(View):
     def get(self, request, *args, **kwargs):
