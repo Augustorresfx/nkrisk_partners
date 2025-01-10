@@ -28,7 +28,7 @@ class InicioView(View):
         context = {
             
         }
-        return render(request, 'index.html', context)
+        return render(request, 'dashboard.html', context)
     
 # Autenticación
 class SignOutView(View):
