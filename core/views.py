@@ -16,7 +16,7 @@ class HomeView(View):
         context = {
             
         }
-        return redirect('login')
+        return render(request, 'index.html', context)
     
 # Inicio
 @method_decorator(login_required, name='dispatch')
@@ -27,7 +27,7 @@ class InicioView(View):
         context = {
             
         }
-        return render(request, 'dashboard.html', context)
+        return render(request, 'index.html', context)
     
 # Autenticación
 class SignOutView(View):
