@@ -20,7 +20,7 @@ from django.urls import path
 from .views import pagina_no_encontrada
 from django.conf.urls import handler404
 from django.conf import settings
-from .views import SignInView, SignOutView, HomeView, InicioView
+from .views import SignInView, SignOutView, HomeView, InicioView, MatrizView
 
 handler404 = pagina_no_encontrada
 
@@ -30,6 +30,8 @@ urlpatterns = [
     path('logout/', SignOutView.as_view(), name="logout"),
     path('', HomeView.as_view(), name='home'),
     path('inicio/', InicioView.as_view(), name='inicio'),
+    path('matrices/', MatrizView.as_view(), name="matrices")
+    
 ]
 
 if settings.DEBUG:

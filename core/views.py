@@ -6,6 +6,12 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from django.contrib import messages
+from django.core.paginator import Paginator
+
+# Importe Modelos
+from .models import Matriz, Broker, Aseguradora
+
 # 404 page
 def pagina_no_encontrada(request, exception):
     
@@ -20,7 +26,7 @@ class HomeView(View):
         return render(request, 'index.html', context)
     
 # Inicio
-#@method_decorator(login_required, name='dispatch')
+@method_decorator(login_required, name='dispatch')
 @method_decorator(user_passes_test(lambda user: user.groups.filter(name='PermisoBasico').exists() or user.is_staff), name='dispatch')
 class InicioView(View):
     def get(self, request, *args, **kwargs):
@@ -29,6 +35,53 @@ class InicioView(View):
             
         }
         return render(request, 'dashboard.html', context)
+    
+# Matríz
+@method_decorator(login_required, name='dispatch')
+@method_decorator(user_passes_test(lambda user: user.groups.filter(name='PermisoBasico').exists() or user.is_staff), name='dispatch')
+class MatrizView(View):
+    def get(self, request, *args, **kwargs):
+        matrices = Matriz.objects.all()
+        
+        matrices_paginados = Paginator(matrices, 30)
+        page_number = request.GET.get("page")
+        filter_pages = matrices_paginados.get_page(page_number)
+
+        context = {
+            'matrices': matrices, 
+            'pages': filter_pages,
+
+        }
+        return render(request, 'matrices.html', context)
+    def post(self, request, *args, **kwargs):
+        # Obtener los datos del formulario directamente desde request.POST
+        
+        nombre = request.POST.get('nombre')
+        pais = request.POST.get('pais')
+        activo = request.POST.get('activo')
+        
+
+        # Crea una nueva instancia de Matriz
+        nueva_matriz = Matriz(
+            
+            nombre=nombre,
+            pais=pais,
+            activo=activo,
+            
+        )
+        try:
+            # Intenta crear el nuevo elemento
+            nueva_matriz.save()
+            messages.success(request, 'El elemento se creó exitosamente.')
+        except Exception as e:
+            # Si hay un error al crear el elemento, captura la excepción
+            messages.error(request, f'Error: No se pudo crear el elemento. Detalles: {str(e)}')
+
+        # Redirige, incluyendo los mensajes en el contexto
+        return HttpResponseRedirect(request.path_info)
+        
+    
+    
     
 # Autenticación
 class SignOutView(View):
