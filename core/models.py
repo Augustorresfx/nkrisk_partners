@@ -1,6 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class Pais(models.Model):
+    nombre = models.CharField(max_length=100)
+    codigo = models.CharField(max_length=3, unique=True)  # Código ISO 3166-1 alpha-3
+
+    def __str__(self):
+        return self.nombre
+
 class Matriz(models.Model):
     nombre = models.CharField(max_length=100)
     pais = models.CharField(max_length=100)

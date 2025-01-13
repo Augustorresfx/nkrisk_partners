@@ -36,6 +36,9 @@
     
     <!--Estilos custom-->
     <link href="{% static 'css/estilos_custom.css' %}" rel="stylesheet" />
+    
+    <!--Sweet Alert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
   </head>
 
@@ -126,7 +129,7 @@
               <ul class=" navbar-right">
                 <li class="nav-item dropdown open" style="padding-left: 15px;">
                   <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-user"></i>John Doe
+                    <i class="fa fa-user mx-1"></i>{{ user.username }}
                   </a>
                   <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item"  href="javascript:;"> Profile</a>

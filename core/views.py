@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 
 # Importe Modelos
-from .models import Matriz, Broker, Aseguradora
+from .models import Pais, Matriz, Broker, Aseguradora
 
 # 404 page
 def pagina_no_encontrada(request, exception):
@@ -42,24 +42,24 @@ class InicioView(View):
 class MatrizView(View):
     def get(self, request, *args, **kwargs):
         matrices = Matriz.objects.all()
-        
+        print(matrices)
         matrices_paginados = Paginator(matrices, 30)
         page_number = request.GET.get("page")
         filter_pages = matrices_paginados.get_page(page_number)
-
+        paises = Pais.objects.all()
         context = {
             'matrices': matrices, 
             'pages': filter_pages,
+            'paises': paises,
 
         }
         return render(request, 'matrices.html', context)
     def post(self, request, *args, **kwargs):
         # Obtener los datos del formulario directamente desde request.POST
         
-        nombre = request.POST.get('nombre')
-        pais = request.POST.get('pais')
-        activo = request.POST.get('activo')
-        
+        nombre = request.POST.get('nuevo_nombre')
+        pais = request.POST.get('nuevo_pais')
+        activo = request.POST.get('nuevo_activo') == 'on'  # Devuelve True si está marcado
 
         # Crea una nueva instancia de Matriz
         nueva_matriz = Matriz(
@@ -80,7 +80,51 @@ class MatrizView(View):
         # Redirige, incluyendo los mensajes en el contexto
         return HttpResponseRedirect(request.path_info)
         
-    
+@method_decorator(login_required, name='dispatch')
+@method_decorator(user_passes_test(lambda user: user.groups.filter(name='PermisoBasico').exists() or user.is_staff), name='dispatch')
+class EditarMatrizView(View):
+    def post(self, request, matriz_id):
+        matriz = get_object_or_404(Matriz, id=matriz_id)
+        nombre = request.POST.get('editar_nombre')
+        pais_id = request.POST.get('editar_pais')
+        activo = request.POST.get('editar_activo') == 'on'
+
+        try:
+            matriz.nombre = nombre
+            matriz.pais_id = pais_id
+            matriz.activo = activo
+            matriz.save()
+            messages.success(request, 'El elemento se actualizó correctamente.')
+        except Exception as e:
+            messages.error(request, f'Error: No se pudo actualizar el elemento. {str(e)}')
+
+        return redirect('matrices')
+
+
+@method_decorator(login_required, name='dispatch')
+@method_decorator(user_passes_test(lambda user: user.groups.filter(name='PermisoBasico').exists() or user.is_staff), name='dispatch')
+class EliminarMatrizView(View):
+    def get(self, request, matriz_id):
+        matriz = get_object_or_404(Matriz, id=matriz_id)
+        
+        context = {
+            'matriz': matriz,
+        }
+        return redirect('matrices')
+
+    def post(self, request, matriz_id):
+        matriz = get_object_or_404(Matriz, id=matriz_id)
+
+        try:
+            # Intenta guardar la eliminacion del elemento
+            matriz.delete()
+            messages.success(request, 'El elemento se eliminó exitosamente.')
+        except Exception as e:
+            # Si hay un error al eliminar el elemento, captura la excepción
+            messages.error(request, f'Error: No se pudo eliminar el elemento. Detalles: {str(e)}')
+        
+        
+        return redirect('matrices')
     
     
 # Autenticación

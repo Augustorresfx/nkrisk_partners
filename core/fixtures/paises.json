@@ -1,0 +1,5 @@
+[
+    {"model": "core.Pais", "pk": 1, "fields": {"nombre": "Argentina", "codigo": "ARG"}},
+    {"model": "core.Pais", "pk": 2, "fields": {"nombre": "Brasil", "codigo": "BRA"}},
+    {"model": "core.Pais", "pk": 3, "fields": {"nombre": "Chile", "codigo": "CHL"}}
+]
