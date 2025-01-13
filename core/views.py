@@ -58,9 +58,10 @@ class MatrizView(View):
         # Obtener los datos del formulario directamente desde request.POST
         
         nombre = request.POST.get('nuevo_nombre')
-        pais = request.POST.get('nuevo_pais')
+        pais_id = request.POST.get('nuevo_pais')
         activo = request.POST.get('nuevo_activo') == 'on'  # Devuelve True si está marcado
 
+        pais = get_object_or_404(Pais, id=pais_id)
         # Crea una nueva instancia de Matriz
         nueva_matriz = Matriz(
             
