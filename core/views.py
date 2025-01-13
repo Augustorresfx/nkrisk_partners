@@ -57,8 +57,8 @@ class MatrizView(View):
         
         nombre = request.POST.get('nuevo_nombre')
         pais_id = request.POST.get('nuevo_pais')
-        activo = request.POST.get('nuevo_activo') == 'on'  # Devuelve True si está marcado
-
+        activo = request.POST.get('nuevo_activo') == 'on'
+        print(f"Activo recibido: {activo}")
         pais = get_object_or_404(Pais, id=pais_id)
         # Crea una nueva instancia de Matriz
         nueva_matriz = Matriz(
@@ -85,8 +85,10 @@ class EditarMatrizView(View):
         matriz = get_object_or_404(Matriz, id=matriz_id)
         nombre = request.POST.get('editar_nombre')
         pais_id = request.POST.get('editar_pais')
-        activo = request.POST.get('editar_activo') == 'on'
+        activo = 'editar_activo' in request.POST
+        print(f"Activo recibido: {activo}")
 
+        
         try:
             matriz.nombre = nombre
             matriz.pais_id = pais_id

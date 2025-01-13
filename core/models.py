@@ -11,7 +11,7 @@ class Pais(models.Model):
 class Matriz(models.Model):
     nombre = models.CharField(max_length=100)
     pais = models.ForeignKey(Pais, on_delete=models.CASCADE)
-    activo = models.CharField(max_length=10, choices=[('S', 'Sí'), ('N', 'No')], default='S')
+    activo = models.BooleanField(default=True)
 
 class Broker(models.Model):
     nombre = models.CharField(max_length=100)
@@ -20,11 +20,11 @@ class Broker(models.Model):
     domicilio_oficina = models.CharField(max_length=100)
     url_web = models.CharField(max_length=100)
     matriz = models.ForeignKey(Matriz, on_delete=models.CASCADE)
-    activo = models.CharField(max_length=10, choices=[('S', 'Sí'), ('N', 'No')], default='S')
+    activo = models.BooleanField(default=True)
 
 class Aseguradora(models.Model):
     nombre = models.CharField(max_length=100)
     pais = models.ForeignKey(Pais, on_delete=models.CASCADE)
     tax_id = models.CharField(max_length=100)
-    activo = models.CharField(max_length=10, choices=[('S', 'Sí'), ('N', 'No')], default='S')
+    activo = models.BooleanField(default=True)
 

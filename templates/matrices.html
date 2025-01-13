@@ -104,7 +104,11 @@
                               
                               <div class="mb-3">
                                 <label for="nuevo_activo" class="form-label mt-1">Activo: </label>
-                                <input name="nuevo_activo" type="checkbox" class="form-check-input mt-2 ml-2" id="nuevo_activo">                              </div>
+                              <!-- Campo oculto que garantiza que siempre se envíe el valor de 'activo' -->
+                              <input type="hidden" name="nuevo_activo" value="False">
+                              <input type="checkbox" name="nuevo_activo" id="nuevo_activo" class="form-check-input mt-2 ml-2" value="on" {% if matriz.activo %}checked{% endif %}>
+
+                              </div>
                               </div>
                               
                           <div class="modal-footer">
@@ -193,8 +197,8 @@
                                           </select>
                                         </div>
                                         <div class="form-group">
-                                          <label for="activo">Activo</label>
-                                          <input type="checkbox" id="editar_activo" name="editar_activo" {% if matriz.activo %}checked{% endif %}>
+                                          <label for="activo">Activo</label><!-- Campo oculto que garantiza que siempre se envíe el valor de 'activo' -->
+                                          <input type="checkbox" name="editar_activo" id="editar_activo" class="form-check-input mt-2 ml-2" value="on" {% if matriz.activo %}checked{% endif %}>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
