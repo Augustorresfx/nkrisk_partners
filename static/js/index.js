@@ -77,4 +77,3 @@ function handleWindowResize () {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 window.addEventListener('resize', handleWindowResize, false);
-
