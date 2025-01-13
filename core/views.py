@@ -27,7 +27,6 @@ class HomeView(View):
     
 # Inicio
 @method_decorator(login_required, name='dispatch')
-@method_decorator(user_passes_test(lambda user: user.groups.filter(name='PermisoBasico').exists() or user.is_staff), name='dispatch')
 class InicioView(View):
     def get(self, request, *args, **kwargs):
         
@@ -38,7 +37,6 @@ class InicioView(View):
     
 # Matríz
 @method_decorator(login_required, name='dispatch')
-@method_decorator(user_passes_test(lambda user: user.groups.filter(name='PermisoBasico').exists() or user.is_staff), name='dispatch')
 class MatrizView(View):
     def get(self, request, *args, **kwargs):
         matrices = Matriz.objects.all()
@@ -82,7 +80,6 @@ class MatrizView(View):
         return HttpResponseRedirect(request.path_info)
         
 @method_decorator(login_required, name='dispatch')
-@method_decorator(user_passes_test(lambda user: user.groups.filter(name='PermisoBasico').exists() or user.is_staff), name='dispatch')
 class EditarMatrizView(View):
     def post(self, request, matriz_id):
         matriz = get_object_or_404(Matriz, id=matriz_id)
@@ -103,7 +100,6 @@ class EditarMatrizView(View):
 
 
 @method_decorator(login_required, name='dispatch')
-@method_decorator(user_passes_test(lambda user: user.groups.filter(name='PermisoBasico').exists() or user.is_staff), name='dispatch')
 class EliminarMatrizView(View):
     def get(self, request, matriz_id):
         matriz = get_object_or_404(Matriz, id=matriz_id)
