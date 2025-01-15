@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 
 # Importe Modelos
-from .models import Pais, Matriz, Broker, Aseguradora
+from .models import Pais, Matriz, Broker, Aseguradora, PendingChange
 
 # 404 page
 def pagina_no_encontrada(request, exception):
@@ -34,6 +34,16 @@ class InicioView(View):
             
         }
         return render(request, 'dashboard.html', context)
+
+# Cambios pendientes
+@method_decorator(login_required, name='dispatch')
+class CambiosPendientesView(View):
+    def get(self, request, *args, **kwargs):
+        changes = PendingChange.objects.filter(approved__isnull=True)
+        context = {
+            'changes': changes
+        }
+        return render(request, 'cambios.html', context)
     
 # Matríz
 @method_decorator(login_required, name='dispatch')
@@ -86,8 +96,6 @@ class EditarMatrizView(View):
         nombre = request.POST.get('editar_nombre')
         pais_id = request.POST.get('editar_pais')
         activo = 'editar_activo' in request.POST
-        print(f"Activo recibido: {activo}")
-
         
         try:
             matriz.nombre = nombre
@@ -125,6 +133,7 @@ class EliminarMatrizView(View):
         
         return redirect('matrices')
     
+
     
 # Autenticación
 class SignOutView(View):
