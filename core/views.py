@@ -9,6 +9,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect
+from django.http import HttpResponseServerError
 from django.apps import apps
 
 # Importe Modelos
@@ -278,7 +279,15 @@ class GuardarCambioGenerico(View):
 # Autenticación
 class SignOutView(View):
     def get(self, request, *args, **kwargs):
-        logout(request)
+        try:
+            logout(request)
+            
+            pass
+        except Exception as e:
+            # Log del error
+            print(e)
+            return HttpResponseServerError("Error interno del servidor.")
+        
         return redirect('login')
 
 class SignInView(View):
