@@ -42,7 +42,6 @@ class InicioView(View):
         return render(request, 'dashboard.html', context)
     
 @method_decorator(login_required, name='dispatch')
-@method_decorator(user_passes_test(is_admin, login_url='/login '), name='dispatch')
 class CambiosPendientesView(View):
     def get(self, request, *args, **kwargs):
         changes = PendingChange.objects.filter(approved__isnull=True)
@@ -188,7 +187,6 @@ class EliminarMatrizView(View):
 # Utils
 
 @method_decorator(login_required, name='dispatch')
-@method_decorator(user_passes_test(is_admin, login_url='/login '), name='dispatch')
 class PendingChangeApprovalView(View):
     def post(self, request, change_id):
         change = get_object_or_404(PendingChange, id=change_id)
