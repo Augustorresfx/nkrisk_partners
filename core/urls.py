@@ -20,7 +20,7 @@ from django.urls import path
 from .views import pagina_no_encontrada
 from django.conf.urls import handler404
 from django.conf import settings
-from .views import SignInView, SignOutView, HomeView, InicioView, MatrizView, EliminarMatrizView, EditarMatrizView
+from .views import SignInView, SignOutView, HomeView, InicioView, MatrizView, EliminarMatrizView, EditarMatrizView, CambiosPendientesView, PendingChangeApprovalView, GuardarCambioGenerico
 
 handler404 = pagina_no_encontrada
 
@@ -36,6 +36,10 @@ urlpatterns = [
     path('matrices/<int:matriz_id>/eliminar/', EliminarMatrizView.as_view(), name='delete_matriz'),
     path('matrices/<int:matriz_id>/editar/', EditarMatrizView.as_view(), name='update_matriz'),
 
+    # CAMBIOS PENDIENTES
+    path('cambios_pendientes/', CambiosPendientesView.as_view(), name='cambios_pendientes'),
+    path('approve-change/<int:change_id>/', PendingChangeApprovalView.as_view(), name='approve_change'),
+    path('guardar-cambio/<str:model_name>/<int:object_id>/', GuardarCambioGenerico.as_view(), name='guardar_cambio'),
     
 ]
 
