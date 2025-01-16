@@ -79,7 +79,7 @@ class MatrizView(View):
         
         nombre = request.POST.get('nuevo_nombre')
         pais_id = request.POST.get('nuevo_pais')
-        activo = request.POST.get('nuevo_activo') == 'on'
+        activo = request.POST.get('nuevo_activo')
         print(f"Activo recibido: {activo}")
         pais = get_object_or_404(Pais, id=pais_id)
         user = request.user
