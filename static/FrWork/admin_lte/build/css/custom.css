@@ -1974,7 +1974,7 @@ table.display thead th:active, table.display thead td:active {
   clear: both; }
 
 .dataTables_scrollBody {
-  *margin-top: -1px;
+  margin-top: -1px;
   -webkit-overflow-scrolling: touch; }
 
 .top .dataTables_info {
@@ -2021,6 +2021,7 @@ td.details {
   border: 1px solid #aaa;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
+  border-radius: 5px;
   padding: 2px 5px;
   margin: 0 3px;
   cursor: pointer; }
