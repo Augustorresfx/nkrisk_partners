@@ -160,7 +160,7 @@
                           
         
                           <td>
-                            <div class=""><!-- Button trigger modal -->
+                            <div data-backdrop="false" class=""><!-- Button trigger modal -->
                               <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#editarModal{{ matriz.id }}">
                                 <i class="fa fa-edit"></i>
                                 
@@ -170,7 +170,7 @@
                               <!-- Modal -->
                               <form method="post" action="{% url 'update_matriz' matriz.id %}" enctype="multipart/form-data">
                                 {% csrf_token %}
-                              <div  class="modal " id="editarModal{{ matriz.id }}" style="z-index: 1060;" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal fade" id="editarModal{{ matriz.id }}" style="z-index: 2000;" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                   <div class="modal-content">
                                     <div class="modal-header">
@@ -179,7 +179,7 @@
                                         <span aria-hidden="true">&times;</span>
                                       </button>
                                     </div>
-                                    <div  class="modal-body" data-backdrop="false">
+                                    <div class="modal-body">
                                       
                                       <div class="mb-3">
                                         <label for="editar_nombre" class="form-label">Nombre de la matriz: </label>
